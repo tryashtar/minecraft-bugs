@@ -206,7 +206,7 @@ namespace Jira_to_GitHub
                         if (deleted > 0)
                             Console.WriteLine($"   Removed {deleted} deleted comments");
                         newticket.GitHubNumber = currentticket.GitHubNumber;
-                        currentticket = newticket;
+                        currentticket.SetTo(newticket);
                     }
                     else // no new changes need to be made
                     {
@@ -320,6 +320,17 @@ namespace Jira_to_GitHub
                 update.AddLabel(label);
             }
             return update;
+        }
+
+        public void SetTo(DualTicket other)
+        {
+            if (this == other)
+                return;
+            this.Title = other.Title;
+            this.Description = other.Description;
+            this.Open = other.Open;
+            Labels.Clear();
+            Labels.AddRange(other.Labels);
         }
 
         public bool TicketMatches(DualTicket other)
