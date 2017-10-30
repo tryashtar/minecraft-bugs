@@ -205,8 +205,7 @@ namespace Jira_to_GitHub
                             Console.WriteLine($"   Updated {updated} existing comments");
                         if (deleted > 0)
                             Console.WriteLine($"   Removed {deleted} deleted comments");
-                        newticket.GitHubNumber = currentticket.GitHubNumber;
-                        currentticket.SetTo(newticket);
+                        currentticket.SetContentsTo(newticket);
                     }
                     else // no new changes need to be made
                     {
@@ -322,7 +321,7 @@ namespace Jira_to_GitHub
             return update;
         }
 
-        public void SetTo(DualTicket other)
+        public void SetContentsTo(DualTicket other)
         {
             if (this == other)
                 return;
@@ -331,6 +330,8 @@ namespace Jira_to_GitHub
             this.Open = other.Open;
             Labels.Clear();
             Labels.AddRange(other.Labels);
+            Comments.Clear();
+            Comments.AddRange(other.Comments);
         }
 
         public bool TicketMatches(DualTicket other)
